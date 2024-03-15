@@ -1,0 +1,14 @@
+
+__pycache__/main.cpython-39.pyc
+__pycache__/bases.cpython-39.pyc
+__pycache__/bases.cpython-311.pyc
+__pycache__/config.cpython-39.pyc
+__pycache__/main.cpython-311.pyc
+__pycache__/markup.cpython-311.pyc
+__pycache__/middleware.cpython-39.pyc
+__pycache__/static.cpython-39.pyc
+chat/__pycache__/__init__.cpython-39.pyc
+chat/__pycache__/chats.cpython-39.pyc
+chat/__pycache__/connect.cpython-39.pyc
+chat/__pycache__/static.cpython-39.pyc
+*.pyc
