@@ -12,6 +12,7 @@ from middleware import rate_limit
 from extradition.extradition import *
 from payment.payment import *
 from admins.admins import *
+from steam.keys import *
 
 import static
 
