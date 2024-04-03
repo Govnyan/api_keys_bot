@@ -44,3 +44,5 @@ dp = Dispatcher(bot, storage=MemoryStorage(), loop=loop)
 
 KEY_PATH = '/home/data/maks/keys/keys.txt'
 SOLD_KEY_PATH = '/home/data/maks/keys/'
+
+WM_id = "110077631651"

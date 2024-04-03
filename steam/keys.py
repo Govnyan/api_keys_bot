@@ -2,6 +2,7 @@
 import requests
 import io
 import re
+import math
 
 from aiogram import types
 from asyncpg import Record
@@ -10,7 +11,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 
 from bases import pool
-from config import dp, bot
+from config import dp, bot, WM_id
 
 from . import static
 
@@ -33,8 +34,11 @@ async def parse_keys(user_id, product_id):
     response_image = requests.get(url_image, params=params_image)
     image_data = response_image.content
 
+    get_steam_keyboard = types.InlineKeyboardMarkup()
+    get_steam_keyboard.add(
+        types.InlineKeyboardButton("Получить",
+                                callback_data=f"game_key|{product_id}"))
 
-    
     logger.info(f'СТАТУС: {response.status_code}')
 
     if response.status_code == 404:
@@ -53,16 +57,27 @@ async def parse_keys(user_id, product_id):
                                 photo=image_stream,
                                 caption=f"""
 {product_name}
-*Цена:* {product_price} ₽
+*Цена:* {math.ceil(product_price)} ₽
 
 *Описание*
 
 *Язык:* {language}
 *Регион активации:* {activation_region}
 """,
-                                parse_mode="Markdown")
+                                parse_mode="Markdown",
+                                reply_markup=get_steam_keyboard)
     else:
         await bot.send_message(user_id, "Произошла ошибка при получении данных о продукте.")
+
+def send_wm(id_good, wm_id, email, id_partner, curr, lang):
+    url = "https://shop.digiseller.ru/xml/create_invoice.asp"
+    data = {
+        "digiseller.request": f"<digiseller.request><id_good>{id_good}</id_good><wm_id>{wm_id}</wm_id><email>{email}</email><id_partner>{id_partner}</id_partner><curr>{curr}</curr><lang>{lang}</lang></digiseller.request>"
+    }
+    response = requests.post(url, data=data)
+    response_data = response.text
+
+    return response_data
 
 
 @dp.message_handler(commands=['steam_keys'])
@@ -79,3 +94,11 @@ async def buy_steam(call: types.CallbackQuery):
     await parse_keys(call.from_user.id, product_id)
 
 
+@dp.callback_query_handler(lambda call: call.data.startswith('game_key'))
+async def game_key(call: types.CallbackQuery):
+    product_id = int(call.data.split("|")[-1])
+    data = await send_wm(product_id, WM_id, "maxenter97@mail.ru", "1227729", "RCC", "ru-RU")
+
+    await bot.send_message(call.from_user.id, data)
+
+    
