@@ -11,8 +11,3 @@ steam_keys_keyboard.add(
 steam_keys_keyboard.add(
     types.InlineKeyboardButton("MASS EFFECT LEGENDARY",
                                callback_data="steam|3541881"))
-
-get_steam_keyboard = types.InlineKeyboardMarkup()
-get_steam_keyboard.add(
-    types.InlineKeyboardButton("Получить",
-                               callback_data=f"steam_key|{product_id}"))
