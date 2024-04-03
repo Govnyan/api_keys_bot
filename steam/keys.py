@@ -48,6 +48,7 @@ async def parse_keys(user_id, product_id):
         product_name = data["product"]["name"]
         product_price = data["product"]["price"]
         product_description = data["product"]["info"]
+        id_goods = data["product"]["id"]
 
         language = re.search(r'Язык(?:и)?: (.+?)<br />', product_description).group(1)
         activation_region = re.search(r'Регион(?: активации)?: (.+?)<br />', product_description).group(1)
@@ -63,6 +64,8 @@ async def parse_keys(user_id, product_id):
 
 *Язык:* {language}
 *Регион активации:* {activation_region}
+
+ID : {id_goods}
 """,
                                 parse_mode="Markdown",
                                 reply_markup=get_steam_keyboard)
