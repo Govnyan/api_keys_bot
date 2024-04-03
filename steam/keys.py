@@ -54,10 +54,7 @@ async def parse_keys(user_id):
 
     url_image = "http://graph.digiseller.ru/img.ashx"
     params = {
-        "id_d": f"{product_id}",
-        "w": "200",
-        "h": "150",
-        "crop": "true"
+        "id_d": f"{product_id}"
     }
 
     response_image = requests.get(url_image, params=params)
