@@ -22,9 +22,17 @@ async def parse_keys(user_id):
     params = {
         "currency": "RUB"
     }
-
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
+
+    url_image = "http://graph.digiseller.ru/img.ashx"
+    params_image = {
+        "id_d": f"{product_id}"
+    }
+    response_image = requests.get(url_image, params=params_image)
+    image_data = response_image.content
+
+
     
     logger.info(f'СТАТУС: {response.status_code}')
 
@@ -40,7 +48,10 @@ async def parse_keys(user_id):
         release_date = re.search(r'Дата выпуска: (.+?)<', product_description).group(1)
         activation_region = re.search(r'Регион активации: (.+?)<br />', product_description).group(1)
 
-        await bot.send_message(user_id, f"""
+        with io.BytesIO(image_data) as image_stream:
+            await bot.send_photo(user_id,
+                                photo=image_stream,
+                                caption=f"""
 {product_name}
 *Цена:* {product_price} ₽
 
@@ -48,22 +59,10 @@ async def parse_keys(user_id):
 *Дата выпуска:* {release_date}
 *Язык:* {language}
 *Регион активации:* {activation_region}
-""", parse_mode="Markdown")
+""",
+                                parse_mode="Markdown")
     else:
         await bot.send_message(user_id, "Произошла ошибка при получении данных о продукте.")
-
-    url_image = "http://graph.digiseller.ru/img.ashx"
-    params = {
-        "id_d": f"{product_id}"
-    }
-
-    response_image = requests.get(url_image, params=params)
-    image_data = response_image.content
-
-    with io.BytesIO(image_data) as image_stream:
-        await bot.send_photo(user_id,
-                             photo=image_stream,
-                             caption="Фото")
 
 
 @dp.message_handler(commands=['steam_keys'])
