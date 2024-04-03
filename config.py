@@ -45,4 +45,8 @@ dp = Dispatcher(bot, storage=MemoryStorage(), loop=loop)
 KEY_PATH = '/home/data/maks/keys/keys.txt'
 SOLD_KEY_PATH = '/home/data/maks/keys/'
 
-WM_id = "110077631651"
+WM_ID = "110077631651"
+EMAIL = "maxenter97@mail.ru"
+ID_PARTHNER = "1227729"
+CURR = "RCC"
+LANG = "ru-RU"

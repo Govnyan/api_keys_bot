@@ -11,7 +11,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 
 from bases import pool
-from config import dp, bot, WM_id
+from config import dp, bot, WM_ID, EMAIL, ID_PARTHNER, CURR, LANG
 
 from . import static
 
@@ -97,7 +97,7 @@ async def buy_steam(call: types.CallbackQuery):
 @dp.callback_query_handler(lambda call: call.data.startswith('game_key'))
 async def game_key(call: types.CallbackQuery):
     product_id = int(call.data.split("|")[-1])
-    data = await send_wm(product_id, WM_id, "maxenter97@mail.ru", "1227729", "RCC", "ru-RU")
+    data = await send_wm(product_id, WM_ID, EMAIL, ID_PARTHNER, CURR, LANG)
 
     await bot.send_message(call.from_user.id, data)
 
