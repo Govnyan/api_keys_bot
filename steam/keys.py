@@ -69,7 +69,7 @@ async def parse_keys(user_id, product_id):
     else:
         await bot.send_message(user_id, "Произошла ошибка при получении данных о продукте.")
 
-def send_wm(id_good, wm_id, email, id_partner, curr, lang):
+async def send_wm(id_good, wm_id, email, id_partner, curr, lang):
     url = "https://shop.digiseller.ru/xml/create_invoice.asp"
     data = {
         "digiseller.request": f"<digiseller.request><id_good>{id_good}</id_good><wm_id>{wm_id}</wm_id><email>{email}</email><id_partner>{id_partner}</id_partner><curr>{curr}</curr><lang>{lang}</lang></digiseller.request>"
