@@ -14,7 +14,7 @@ from config import dp, bot
 
 
 async def parse_keys(user_id):
-    product_id = 3666463
+    product_id = 3541881
     url = f"https://api.digiseller.ru/api/products/{product_id}/data"
     headers = {
         "Accept": "application/json"
