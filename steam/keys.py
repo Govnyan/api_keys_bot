@@ -12,9 +12,10 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from bases import pool
 from config import dp, bot
 
+from . import static
 
-async def parse_keys(user_id):
-    product_id = 3541881
+
+async def parse_keys(user_id, product_id):
     url = f"https://api.digiseller.ru/api/products/{product_id}/data"
     headers = {
         "Accept": "application/json"
@@ -66,6 +67,15 @@ async def parse_keys(user_id):
 
 @dp.message_handler(commands=['steam_keys'])
 async def get_keys(message: types.Message):
-    await parse_keys(message.from_user.id)
+    await bot.send_message(message.from_user.id,
+                           "Вы можете получить ключи Steam в данном чате. Выберите один из вариантов:",
+                           parse_mode="Markdown",
+                           reply_markup=static.steam_keys_keyboard)
+    
+
+@dp.callback_query_handler(lambda call: call.data.startswith('steam'))
+async def buy_steam(call: types.CallbackQuery):
+    product_id = int(call.data.split("|")[-1])
+    await parse_keys(call.from_user.id, product_id)
 
 
