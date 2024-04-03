@@ -19,8 +19,11 @@ async def parse_keys(user_id):
     headers = {
         "Accept": "application/json"
     }
+    params = {
+        "currency": "RUB"
+    }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
     data = response.json()
     
     logger.info(f'СТАТУС: {response.status_code}')
@@ -39,18 +42,19 @@ async def parse_keys(user_id):
 
         await bot.send_message(user_id, f"""
 {product_name}
-*Цена:* {product_price}
+*Цена:* {product_price} ₽
+
 *Описание*
-Дата выпуска: {release_date}
-Язык: {language}
-Регион активации: {activation_region}
+*Дата выпуска:* {release_date}
+*Язык:* {language}
+*Регион активации:* {activation_region}
 """, parse_mode="Markdown")
     else:
         await bot.send_message(user_id, "Произошла ошибка при получении данных о продукте.")
 
     url_image = "http://graph.digiseller.ru/img.ashx"
     params = {
-        "id_d": "2029463",
+        "id_d": f"{product_id}",
         "w": "200",
         "h": "150",
         "crop": "true"
