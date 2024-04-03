@@ -44,9 +44,8 @@ async def parse_keys(user_id):
         product_price = data["product"]["price"]
         product_description = data["product"]["info"]
 
-        language = re.search(r'Язык: (.+?)<br />', product_description).group(1)
-        release_date = re.search(r'Дата выпуска: (.+?)<', product_description).group(1)
-        activation_region = re.search(r'Регион активации: (.+?)<br />', product_description).group(1)
+        language = re.search(r'Язык(?:и)?: (.+?)<br />', product_description).group(1)
+        activation_region = re.search(r'Регион(?: активации)?: (.+?)<br />', product_description).group(1)
 
         with io.BytesIO(image_data) as image_stream:
             await bot.send_photo(user_id,
@@ -56,7 +55,7 @@ async def parse_keys(user_id):
 *Цена:* {product_price} ₽
 
 *Описание*
-*Дата выпуска:* {release_date}
+
 *Язык:* {language}
 *Регион активации:* {activation_region}
 """,
