@@ -1,6 +1,7 @@
 
 import requests
 import io
+import re
 
 from aiogram import types
 from asyncpg import Record
@@ -32,15 +33,22 @@ async def parse_keys(user_id):
         product_price = data["product"]["price"]
         product_description = data["product"]["info"]
 
+        language = re.search(r'Язык: (.+?)<br />', product_description).group(1)
+        release_date = re.search(r'Дата выпуска: (.+?)<', product_description).group(1)
+        activation_region = re.search(r'Регион активации: (.+?)<br />', product_description).group(1)
+
         await bot.send_message(user_id, f"""
-Название: {product_name}
-Цена: {product_price}
-Описание: {product_description}""")
+{product_name}
+*Цена:* {product_price}
+*Описание*
+Дата выпуска: {release_date}
+Язык: {language}
+Регион активации: {activation_region}
+""", parse_mode="Markdown")
     else:
         await bot.send_message(user_id, "Произошла ошибка при получении данных о продукте.")
 
-    '''url = "http://graph.digiseller.ru/img.ashx"
-    # Параметры запроса
+    url_image = "http://graph.digiseller.ru/img.ashx"
     params = {
         "id_d": "2029463",
         "w": "200",
@@ -48,13 +56,13 @@ async def parse_keys(user_id):
         "crop": "true"
     }
 
-    # Отправляем GET-запрос и получаем изображение
-    response = requests.get(url, params=params)
-    image_data = response.content
+    response_image = requests.get(url_image, params=params)
+    image_data = response_image.content
 
-    # Отправляем изображение через bot.send_photo
     with io.BytesIO(image_data) as image_stream:
-        await bot.send_photo(chat_id=user_id, photo=image_stream, caption="Описание изображения")'''
+        await bot.send_photo(user_id,
+                             photo=image_stream,
+                             caption="Фото")
 
 
 @dp.message_handler(commands=['steam_keys'])
