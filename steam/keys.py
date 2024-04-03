@@ -11,8 +11,6 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from bases import pool
 from config import dp, bot
 
-from . import static
-
 
 async def parse_keys(user_id):
     product_id = 3666463
