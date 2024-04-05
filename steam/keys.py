@@ -72,7 +72,7 @@ async def parse_keys(user_id, product_id):
 async def send_wm(id_good, wm_id, email, id_partner, curr, lang):
     url = "https://shop.digiseller.ru/xml/create_invoice.asp"
     data = {
-        "digiseller.request": f"<digiseller.request><id_good>{id_good}</id_good><wm_id>{wm_id}</wm_id><email>{email}</email><id_partner>{id_partner}</id_partner><curr>{curr}</curr><lang>{lang}</lang></digiseller.request>"
+        "digiseller.request": f"""<digiseller.request><id_good>{id_good}</id_good><wm_id>{wm_id}</wm_id><email>{email}</email><id_partner>{id_partner}</id_partner><curr>{curr}</curr><lang>{lang}</lang></digiseller.request>"""
     }
     response = requests.post(url, data=data)
     response_data = response.text
