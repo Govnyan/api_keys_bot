@@ -97,7 +97,7 @@ async def buy_steam(call: types.CallbackQuery):
 @dp.callback_query_handler(lambda call: call.data.startswith('game_key'))
 async def game_key(call: types.CallbackQuery):
     product_id = int(call.data.split("|")[-1])
-    data = await send_wm(product_id, WM_ID, EMAIL, ID_PARTHNER, CURR, LANG)
+    data = await send_wm(2142729, WM_ID, EMAIL, ID_PARTHNER, CURR, LANG)
 
     await bot.send_message(call.from_user.id, data)
 
