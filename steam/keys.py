@@ -84,7 +84,7 @@ async def buy_steam(call: types.CallbackQuery):
 @dp.callback_query_handler(lambda call: call.data.startswith('game_key'))
 async def game_key(call: types.CallbackQuery):
     product_id = int(call.data.split("|")[-1])
-
+    logger.warning(f"id: {product_id}")
     url = "https://shop.digiseller.ru/xml/create_invoice.asp"
     data = {
         "digiseller.request": f"""<digiseller.request><id_good>{product_id}</id_good><wm_id>{WM_ID}</wm_id><email>{EMAIL}</email><id_partner>{ID_PARTHNER}</id_partner><curr>{CURR}</curr><lang>{LANG}</lang></digiseller.request>"""
