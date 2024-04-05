@@ -48,5 +48,5 @@ SOLD_KEY_PATH = '/home/data/maks/keys/'
 WM_ID = "110077631651"
 EMAIL = "maxenter97@mail.ru"
 ID_PARTHNER = "1227729"
-CURR = "RCC"
+CURR = "WMZ"
 LANG = "ru-RU"
